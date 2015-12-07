@@ -375,7 +375,7 @@ def mainLoop(args):
                         if args.quiet:
                             print "| " + digits + " |"
     if len(args.port) > 1:
-	if args.graph:
+    if args.graph:
 	    print "This program does not support graphing two multimeters at the same time. "
 	else:
 	    serialPorts = []
