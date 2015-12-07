@@ -1,7 +1,7 @@
 import numpy as np
 import subprocess
-from random import *
-from time import sleep
+# from random import *
+# from time import sleep
 import serial
 import argparse
 import sys
@@ -49,8 +49,8 @@ class grapher(object):
 
     def append(self, yVal):				#append a yValue to the graph
         if len(self.x) == len(self.y):			#if we already graphSize variables, then delete the oldest value and add the newest
-            tempX = self.x
-            tempY = self.y
+            # tempX = self.x
+            # tempY = self.y
             self.y = np.delete(self.y, 0)
             self.y = np.append(self.y, yVal)
         else:
@@ -60,9 +60,9 @@ class grapher(object):
 
     def appendWithLabel(self, yVal,label):
         if len(self.x) == len(self.y):
-            tempX = self.x
-            tempY = self.y
-            self.y = np.delete(self.y, 0)
+            # tempX = self.x
+            # tempY = self.y
+            # self.y = np.delete(self.y, 0)
             self.y = np.append(self.y, yVal)
         else:
             if len(self.x) > len(self.y):
