@@ -18,7 +18,7 @@ class grapher(object):
         self.y = y
         self.update(self.x,self.y)
         self.graphOutput = self.getGraph()
-        
+
     def update(self, x, y, label='DMM'):									#reimplementation of update method to allow setting label
         self.x = x
         self.y = y
@@ -54,7 +54,7 @@ class grapher(object):
         else:
             if len(self.x) > len(self.y):
                 self.y = np.append(self.y, yVal)
-        self.update(self.x, self.y)  
+        self.update(self.x, self.y)
 
     def appendWithLabel(self, yVal,label):
         if len(self.x) == len(self.y):
@@ -66,7 +66,7 @@ class grapher(object):
             if len(self.x) > len(self.y):
                 self.y = np.append(self.y, yVal)
         self.update(self.x, self.y, label)
-      
+
 
 # converts serial data to an array of strings
 # each of which is a binary representation of a single byte
@@ -128,7 +128,8 @@ def processDigit(digitNumber, binArray):
         decimalPointBool = False
     # Returns a tuple containing both whether or not to include a decimal pt
     # and the digit on the display
-    return (decimalPointBool, digitValue) 
+    return (decimalPointBool, digitValue)
+
 
 def getCharFromDigitDict(digitDict): #Returns a char based off of the digitDictionary sent to it
     if is9(digitDict):
@@ -320,7 +321,7 @@ def strToDigits(strOfBytes): #converts a string of space separated hexadecimal b
 def mainLoop(args):
     if len(args.port) == 1:
     	ser = serial.Serial(port=args.port[0], baudrate=2400, bytesize=8, parity='N', stopbits=1, timeout=5, xonxoff=False, rtscts=False, dsrdtr=False)
-    	global grapher 
+    	global grapher
 	grapher = grapher([0])
 	if args.csv:
 	    print args.port[0] + ','
