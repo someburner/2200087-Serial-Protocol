@@ -302,29 +302,42 @@ def strToFlags(strOfBytes): #Checks all possible flags that might be needed and 
         flags.append('Hz')
     return flags
 
-def strToDigits(strOfBytes): #converts a string of space separated hexadecimal bytes into numbers following the protocol in readme.md
-    binArray = getArrFromStr(strOfBytes) #Create an array of the binary values from those hexadecimal bytes
+
+# converts a string of space separated hexadecimal bytes
+# into numbers following the protocol in readme.md
+def strToDigits(strOfBytes):
+    #Create an array of the binary values from those hexadecimal bytes
+    binArray = getArrFromStr(strOfBytes)
     digits = ""
-    for number in reversed(range(1,5)): #reversed rabge so that we iterate through values 4,3,2,1 in that order due to how serial protocol works (see readme.md)
-        out = processDigit(number,binArray)
+    # reversed rabge so that we iterate through values 4,3,2,1 in that order
+    # due to how serial protocol works (see readme.md)
+    for number in reversed(range(1, 5)):
+        out = processDigit(number, binArray)
         if out[1] == -1:
-            print("Protocol Error: Please start an issue here: https://github.com/ddworken/2200087-Serial-Protocol/issues and include the following data: '" + strOfBytes + "'")
+            print("Protocol Error: Please start an issue here: \
+                https://github.com/ddworken/2200087-Serial-Protocol/issues \
+                and include the following data: '" + strOfBytes + "'")
             exit(1)
-        if out[0] == True: #append the decimal point if the decimalPointBool in the tuple is true
+        # append the decimal point if the decimalPointBool in the tuple is true
+        if out[0]:
             digits += "."
         digits += str(out[1])
-    minusBool = bool(int(binArray[0][::-1][3])) #following the serial protocol, calculate whether or not a negative sign is needed
+    #following the serial protocol, calc. whether or not a neg sign is needed
+    minusBool = bool(int(binArray[0][::-1][3]))
     if minusBool:
         digits = '-' + digits
     return digits
 
+
 def mainLoop(args):
     if len(args.port) == 1:
-    	ser = serial.Serial(port=args.port[0], baudrate=2400, bytesize=8, parity='N', stopbits=1, timeout=5, xonxoff=False, rtscts=False, dsrdtr=False)
-    	global grapher
+        ser = serial.Serial(port=args.port[0], baudrate=2400,
+                            bytesize=8, parity='N', stopbits=1, timeout=5,
+                            xonxoff=False, rtscts=False, dsrdtr=False)
+        global grapher
 	grapher = grapher([0])
-	if args.csv:
-	    print args.port[0] + ','
+	# if args.csv:
+	#     print args.port[0] + ','
 	if not args.csv:
 	    print "| " + args.port[0] + " |"
         while(True):
@@ -397,6 +410,7 @@ def mainLoop(args):
 		    	if not args.csv:
 			    sys.stdout.write(" | ")
 		    sys.stdout.write("\n")
+
 
 def getSerialChunk(ser):
     while True:
