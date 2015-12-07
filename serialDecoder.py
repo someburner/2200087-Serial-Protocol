@@ -1,86 +1,7 @@
-import numpy as np
-import subprocess
+
 import serial
 import argparse
-
 import sys
-
-class grapher(object):
-    np = __import__('numpy')
-    subprocess = __import__('subprocess')
-    # a list of strings to store the graph in
-    graphOutput = []
-    # a list to store 100 most recent X values in
-    x = []
-    # a list to sore 100 most recent Y values in
-    y = []
-    # an integer defining the maximum number of data points to track
-    graphSize = 100
-    # set graphSize to the number of seconds of data you want displayed * 10
-    # (b/c serial sends values at 10 hz)
-
-    def __init__(self, y):
-        for i in range(self.graphSize):
-            self.x.append(i)
-        self.y = y
-        self.update(self.x, self.y)
-        self.graphOutput = self.getGraph()
-
-    # reimplementation of update method to allow setting label
-    def update(self, x, y, label='DMM'):
-        self.x = x
-        self.y = y
-        self.gnuplot = subprocess.Popen(["/usr/bin/gnuplot"],
-                                        stdin=subprocess.PIPE,
-                                        stdout=subprocess.PIPE)
-        self.gnuplot.stdin.write("set term dumb 150 25\n")
-        self.gnuplot.stdin.write(
-            "plot '-' using 1:2 title '" + label + "' with linespoints \n")
-        for i, j in zip(x, y):
-            self.gnuplot.stdin.write("%f %f\n" % (i, j))
-        self.gnuplot.stdin.write("e\n")
-        self.gnuplot.stdin.flush()
-        i = 0
-        output = []
-        while self.gnuplot.poll() is None:
-            output.append(self.gnuplot.stdout.readline())
-            i += 1
-            if i == 24:
-                break
-        self.graphOutput = output
-
-    # return a list of lines that when printed out show a graph
-    def getGraph(self):
-        return self.graphOutput
-
-    # return a list of x,y value pairs (that are currently on the graph)
-    def getValues(self):
-        return zip(self.x, self.y)
-
-    # append a yValue to the graph
-    def append(self, yVal):
-        # if we already graphSize variables, then delete the oldest value and
-        # add the newest
-        if len(self.x) == len(self.y):
-            # tempX = self.x
-            # tempY = self.y
-            self.y = np.delete(self.y, 0)
-            self.y = np.append(self.y, yVal)
-        else:
-            if len(self.x) > len(self.y):
-                self.y = np.append(self.y, yVal)
-        self.update(self.x, self.y)
-
-    def appendWithLabel(self, yVal, label):
-        if len(self.x) == len(self.y):
-            # tempX = self.x
-            # tempY = self.y
-            # self.y = np.delete(self.y, 0)
-            self.y = np.append(self.y, yVal)
-        else:
-            if len(self.x) > len(self.y):
-                self.y = np.append(self.y, yVal)
-        self.update(self.x, self.y, label)
 
 
 # converts serial data to an array of strings
@@ -318,7 +239,7 @@ def is0(digitDict):
     return False
 
 global debug
-debug = True
+debug = False
 
 
 '''
@@ -407,7 +328,8 @@ def strToFlags(strOfBytes):
 
 def strToDigits(strOfBytes):
 
-    print('strToDigits(strOfBytes) {0}', strOfBytes)
+    if debug:
+        print('strToDigits(strOfBytes) {0}', strOfBytes)
     # Create an array of the binary values from those hexadecimal bytes
     binArray = getArrFromStr(strOfBytes)
     digits = ""
@@ -428,7 +350,8 @@ def strToDigits(strOfBytes):
     minusBool = bool(int(binArray[0][::-1][3]))
     if minusBool:
         digits = '-' + digits
-    print('strToDigits got:' + digits)
+    if debug:
+        print('strToDigits got:' + digits)
     return digits
 
 
@@ -437,56 +360,54 @@ def mainLoop(args):
         ser = serial.Serial(port=args.port[0], baudrate=2400,
                             bytesize=8, parity='N', stopbits=1, timeout=5,
                             xonxoff=False, rtscts=False, dsrdtr=False)
-        global grapher
-        grapher = grapher([0])
+        # global grapher
+        # grapher = grapher([0])
         # if args.csv:
         #     print args.port[0] + ','
         if not args.csv:
             print("| " + args.port[0] + " |")
         while(True):
             chunk = getSerialChunk(ser)
-            if args.graph:
-                try:
-                    floatVal = float(strToDigits(chunk))
-                    grapher.appendWithLabel(
-                        floatVal, ' '.join(strToFlags(chunk)))
-                    graph = grapher.getGraph()
-                    for line in graph:
-                        print(line)
-                except:
-                    print(strToDigits(chunk)[-1])
-                    try:
-                        if strToDigits(chunk)[-1] == 'C' or \
-                           strToDigits(chunk)[-1] == 'F':
-                            floatVal = float(strToDigits(chunk)[0:-1])
-                            grapher.appendWithLabel(
-                                floatVal, ' '.join(strToFlags(chunk)))
-                            graph = grapher.getGraph()
-                            for line in graph:
-                                print(line)
-                    except:
-                        pass
-            else:
-                digits = strToDigits(chunk)
-                flags = ' '.join(strToFlags(chunk))
-                if "None" not in digits:
-                    if args.csv:
-                        if not args.quiet:
-                            print(digits + ' ' + flags + ",")
-                        if args.quiet:
-                            print(digits + ",")
-                    if not args.csv:
-                        if not args.quiet:
-                            print("| " + digits + ' ' + flags + " |")
-                        if args.quiet:
-                            print("| " + digits + " |")
+            digits = strToDigits(chunk)
+            flags = ' '.join(strToFlags(chunk))
+            if "None" not in digits:
+                # if args.csv:
+                #     if not args.quiet:
+                #         print(digits + ' ' + flags + ",")
+                #     if args.quiet:
+                #         print(digits + ",")
+                # if not args.csv:
+                if not args.quiet:
+                    print("| " + digits + ' ' + flags + " |")
+                else:
+                    print("| " + digits + " |")
 
 
 def getSerialChunk(ser):
     while True:
         chunk = []
         for i in range(14):
-            chunk.append(ser.read(1).encode('hex'))
+            ch = ser.read(1).encode('hex')
+            if debug:
+                print('appending chunk ' + ch)
+            '''
+                appending chunk 12
+                appending chunk 20
+                appending chunk 37
+                appending chunk 4d
+                appending chunk 53
+                appending chunk 6f
+                appending chunk 79
+                appending chunk 8f
+                appending chunk 97
+                appending chunk ad
+                appending chunk b0
+                appending chunk c0
+                appending chunk d2
+                appending chunk e0
+                | 09.30 VOLTS |
+            '''
+            chunk.append(ch)
         if chunk[0][0] != '1':
             startChunk = []
             endChunk = []
@@ -495,9 +416,21 @@ def getSerialChunk(ser):
                     startChunk = chunk[index:]
                     endChunk = chunk[:index]
                     chunk = startChunk + endChunk
-        return " ".join(chunk)
+                    if debug:
+                        print('startChunk:{0}, endChunk:{1}. chunk;{2}',
+                              startChunk, endChunk, chunk)
+                    return " ".join(chunk)
 
-if __name__ == '__main__':  # Allows for usage of above methods in a library
+
+'''
+['13','20','30','42','50','62','70','82','98','a2','b0','c0','d3'],
+['e0'],
+['13','20','30','42','50','62','70','82','98','a2','b0','c0','d3','e0']
+'''
+
+
+# Allows for usage of above methods in a library
+if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--graph", help="Use this argument if you want \
                         to display a graph. ",
