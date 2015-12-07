@@ -317,14 +317,18 @@ def is0(digitDict):
     return False
 
 
-def strToFlags(strOfBytes):  # Checks all possible flags that might be needed and returns a list containing all currently active flags
+# Checks all possible flags that might be needed
+# and returns a list containing all currently active flags
+def strToFlags(strOfBytes):
     flags = []
     binArray = getArrFromStr(strOfBytes)
     for index, binStr in enumerate(binArray):
         binArray[index] = binStr[::-1]
     if binArray[0][2] == '1':
         flags.append('AC')
-    # if binArray[0][1] == '1': ###Don't display this because it will always be on since whenever we are getting input, it will be on.
+    # Don't display this because it will always be on since
+    # whenever we are getting input, it will be on.
+    # if binArray[0][1] == '1':
     #   flags.append('SEND')
     if binArray[0][0] == '1':
         flags.append('AUTO')
