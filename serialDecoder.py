@@ -3,6 +3,7 @@ import subprocess
 import serial
 import argparse
 
+import sys
 
 class grapher(object):
     np = __import__('numpy')
@@ -316,13 +317,30 @@ def is0(digitDict):
         return True
     return False
 
+global debug
+debug = True
 
-# Checks all possible flags that might be needed
-# and returns a list containing all currently active flags
+
+'''
+    Checks all possible flags that might be needed
+    and returns a list containing all currently active flags
+    strToFlags('12 20 37 4d 53 6f 79 8f 97 ad b0 c0 d2 e0'
+    binArray =
+        ['00010010', '00100000', '00110111', '01001101',
+         '01010011', '01101111', '01111001', '10001111',
+         '10010111', '10101101', '10110000', '11000000',
+         '11010010', '11100000']
+'''
+
+
 def strToFlags(strOfBytes):
-    print('strToFlags. strOfBytes: {strOfBytes}')
+
     flags = []
     binArray = getArrFromStr(strOfBytes)
+    if debug:
+        print('strToFlags. strOfBytes: {0}\n binarray: {1}',
+              strOfBytes, binArray)
+
     for index, binStr in enumerate(binArray):
         binArray[index] = binStr[::-1]
     if binArray[0][2] == '1':
@@ -376,9 +394,20 @@ def strToFlags(strOfBytes):
     return flags
 
 
-# converts a string of space separated hexadecimal bytes
-# into numbers following the protocol in readme.md
+'''
+    converts a string of space separated hexadecimal bytes
+    into numbers following the protocol in readme.md
+
+
+    ('strToDigits(strOfBytes = '12 20 37 4d 53 6f 79 8f 97 ad b0 c0 d2 e0')
+    strToDigits got:09.30
+    | 09.30 VOLTS |
+'''
+
+
 def strToDigits(strOfBytes):
+
+    print('strToDigits(strOfBytes) {0}', strOfBytes)
     # Create an array of the binary values from those hexadecimal bytes
     binArray = getArrFromStr(strOfBytes)
     digits = ""
@@ -390,7 +419,7 @@ def strToDigits(strOfBytes):
             print("Protocol Error: Please start an issue here: \
                 https://github.com/ddworken/2200087-Serial-Protocol/issues \
                 and include the following data: '" + strOfBytes + "'")
-            exit(1)
+            sys.exit(1)
         # append the decimal point if the decimalPointBool in the tuple is true
         if out[0]:
             digits += "."
@@ -399,6 +428,7 @@ def strToDigits(strOfBytes):
     minusBool = bool(int(binArray[0][::-1][3]))
     if minusBool:
         digits = '-' + digits
+    print('strToDigits got:' + digits)
     return digits
 
 
