@@ -320,6 +320,7 @@ def is0(digitDict):
 # Checks all possible flags that might be needed
 # and returns a list containing all currently active flags
 def strToFlags(strOfBytes):
+    print('strToFlags. strOfBytes: {strOfBytes}')
     flags = []
     binArray = getArrFromStr(strOfBytes)
     for index, binStr in enumerate(binArray):
