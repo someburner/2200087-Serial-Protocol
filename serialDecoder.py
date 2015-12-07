@@ -1,7 +1,5 @@
 import numpy as np
 import subprocess
-# from random import *
-# from time import sleep
 import serial
 import argparse
 import sys
@@ -70,45 +68,67 @@ class grapher(object):
         self.update(self.x, self.y, label)
       
 
-def getArrFromStr(serialData): #converts serial data to an array of strings each of which is a binary representation of a single byte
+# converts serial data to an array of strings
+# each of which is a binary representation of a single byte
+def getArrFromStr(serialData):
     output = []
     inputList = serialData.split(" ")
     for value in inputList:
-        binStr = bin(int(value, base=16))[2:] #The [2:] removes the first 2 characters so as to trim off the 0b
-        for i in range(8-len(binStr)):#we add enough 0s to the front in order to make it 8 bytes (since bin() trims off zeros in the start)
+        #The [2:] removes the first 2 characters so as to trim off the 0b
+        binStr = bin(int(value, base=16))[2:]
+        # we add enough 0s to the front in order to make it 8 bytes
+        # (since bin() trims off zeros in the start)
+        for i in range(8-len(binStr)):
             binStr = '0' + binStr
         output.append(binStr)
     return output
 
+
 def processDigit(digitNumber, binArray):
     decimalPointBool = False
-    digitValue = -1 #Allows easy detection of failed digit detection
+    # Allows easy detection of failed digit detection
+    digitValue = -1
     bin = []
     if digitNumber == 4:
-        bin.append(binArray[2][::-1]) #reverse it because we want to start with bit 0, not bit 7
-        bin.append(binArray[3][::-1]) #reverse it because we want to start with bit 0, not bit 7
+        # reverse. start with bit 0, not bit 7
+        bin.append(binArray[2][::-1])
+        #reverse. start with bit 0, not bit 7
+        bin.append(binArray[3][::-1])
     if digitNumber == 3:
-        bin.append(binArray[4][::-1]) #reverse it because we want to start with bit 0, not bit 7
-        bin.append(binArray[5][::-1]) #reverse it because we want to start with bit 0, not bit 7
+        #reverse. start with bit 0, not bit 7
+        bin.append(binArray[4][::-1])
+        #reverse. start with bit 0, not bit 7
+        bin.append(binArray[5][::-1])
     if digitNumber == 2:
-        bin.append(binArray[6][::-1]) #reverse it because we want to start with bit 0, not bit 7
-        bin.append(binArray[7][::-1]) #reverse it because we want to start with bit 0, not bit 7
+        #reverse. start with bit 0, not bit 7
+        bin.append(binArray[6][::-1])
+        #reverse. start with bit 0, not bit 7
+        bin.append(binArray[7][::-1])
     if digitNumber == 1:
-        bin.append(binArray[8][::-1]) #reverse it because we want to start with bit 0, not bit 7
-        bin.append(binArray[9][::-1]) #reverse it because we want to start with bit 0, not bit 7
+        #reverse. start with bit 0, not bit 7
+        bin.append(binArray[8][::-1])
+        #reverse. start with bit 0, not bit 7
+        bin.append(binArray[9][::-1])
     digitDict = {}
-    digitDict['A'] = int(bin[0][0]) #Creates a dictionary where the key;s follow the protocol description in readme.md
+    #Creates a dictionary where the key;s follow the protocol desc in readme.md
+    digitDict['A'] = int(bin[0][0])
     digitDict['F'] = int(bin[0][1])
     digitDict['E'] = int(bin[0][2])
     digitDict['B'] = int(bin[1][0])
     digitDict['G'] = int(bin[1][1])
     digitDict['C'] = int(bin[1][2])
     digitDict['D'] = int(bin[1][3])
-    digitValue = getCharFromDigitDict(digitDict) #passes the digit dict to getCharFromDigitDict to decode what the value is
-    decimalPointBool = bool(int(bin[0][3])) #checks if there should be a decimal point
-    if digitNumber == 4: #if it is digit 4, a decimal point actually means MAX not decimal point (see readme.md for full description of protocol)
+    #passes the digit dict to getCharFromDigitDict to decode what the value is
+    digitValue = getCharFromDigitDict(digitDict)
+    #checks if there should be a decimal point
+    decimalPointBool = bool(int(bin[0][3]))
+    # if it is digit 4, a decimal point actually means MAX not decimal pt
+    # (see readme.md for full description of protocol)
+    if digitNumber == 4:
         decimalPointBool = False
-    return (decimalPointBool, digitValue) #Returns a tuple containing both whether or not to include a decimal point and the digit on the display
+    # Returns a tuple containing both whether or not to include a decimal pt
+    # and the digit on the display
+    return (decimalPointBool, digitValue) 
 
 def getCharFromDigitDict(digitDict): #Returns a char based off of the digitDictionary sent to it
     if is9(digitDict):
@@ -306,7 +326,7 @@ def mainLoop(args):
 	    print args.port[0] + ','
 	if not args.csv:
 	    print "| " + args.port[0] + " |"
-    	while(True):
+        while(True):
             chunk = getSerialChunk(ser)
             if args.graph:
 	    	try:
