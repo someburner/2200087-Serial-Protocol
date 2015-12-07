@@ -206,85 +206,113 @@ def isN(digitDict):
 
 
 def isL(digitDict):
-    if digitDict['A'] == 0 and digitDict['F'] == 1 and digitDict['G'] == 0 and digitDict['B'] == 0 and digitDict['C'] == 0 and digitDict['D'] == 1 and digitDict['E'] == 1:
+    if digitDict['A'] == 0 and digitDict['F'] == 1 and \
+       digitDict['G'] == 0 and digitDict['B'] == 0 and \
+       digitDict['C'] == 0 and digitDict['D'] == 1 and digitDict['E'] == 1:
         return True
     return False
 
 
 def isP(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 1 and digitDict['G'] == 1 and digitDict['B'] == 1 and digitDict['C'] == 0 and digitDict['D'] == 0 and digitDict['E'] == 1:
+    if digitDict['A'] == 1 and digitDict['F'] == 1 and \
+       digitDict['G'] == 1 and digitDict['B'] == 1 and \
+       digitDict['C'] == 0 and digitDict['D'] == 0 and digitDict['E'] == 1:
         return True
     return False
 
 
 def isF(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 1 and digitDict['G'] == 1 and digitDict['B'] == 0 and digitDict['C'] == 0 and digitDict['D'] == 0 and digitDict['E'] == 1:
+    if digitDict['A'] == 1 and digitDict['F'] == 1 and \
+       digitDict['G'] == 1 and digitDict['B'] == 0 and \
+       digitDict['C'] == 0 and digitDict['D'] == 0 and digitDict['E'] == 1:
         return True
     return False
 
 
 def isC(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 1 and digitDict['G'] == 0 and digitDict['B'] == 0 and digitDict['C'] == 0 and digitDict['D'] == 1 and digitDict['E'] == 1:
+    if digitDict['A'] == 1 and digitDict['F'] == 1 and \
+       digitDict['G'] == 0 and digitDict['B'] == 0 and \
+       digitDict['C'] == 0 and digitDict['D'] == 1 and digitDict['E'] == 1:
         return True
     return False
 
 
 def is9(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 1 and digitDict['G'] == 1 and digitDict['B'] == 1 and digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 0:
+    if digitDict['A'] == 1 and digitDict['F'] == 1 and \
+       digitDict['G'] == 1 and digitDict['B'] == 1 and \
+       digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 0:
         return True
     return False
 
 
 def is8(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 1 and digitDict['G'] == 1 and digitDict['B'] == 1 and digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 1:
+    if digitDict['A'] == 1 and digitDict['F'] == 1 and \
+       digitDict['G'] == 1 and digitDict['B'] == 1 and \
+       digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 1:
         return True
     return False
 
 
 def is7(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 0 and digitDict['G'] == 0 and digitDict['B'] == 1 and digitDict['C'] == 1 and digitDict['D'] == 0 and digitDict['E'] == 0:
+    if digitDict['A'] == 1 and digitDict['F'] == 0 and \
+       digitDict['G'] == 0 and digitDict['B'] == 1 and \
+       digitDict['C'] == 1 and digitDict['D'] == 0 and digitDict['E'] == 0:
         return True
     return False
 
 
 def is6(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 1 and digitDict['G'] == 1 and digitDict['B'] == 0 and digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 1:
+    if digitDict['A'] == 1 and digitDict['F'] == 1 and \
+       digitDict['G'] == 1 and digitDict['B'] == 0 and \
+       digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 1:
         return True
     return False
 
 
 def is5(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 1 and digitDict['G'] == 1 and digitDict['B'] == 0 and digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 0:
+    if digitDict['A'] == 1 and digitDict['F'] == 1 and \
+       digitDict['G'] == 1 and digitDict['B'] == 0 and \
+       digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 0:
         return True
     return False
 
 
 def is4(digitDict):
-    if digitDict['A'] == 0 and digitDict['F'] == 1 and digitDict['G'] == 1 and digitDict['B'] == 1 and digitDict['C'] == 1 and digitDict['D'] == 0 and digitDict['E'] == 0:
+    if digitDict['A'] == 0 and digitDict['F'] == 1 and \
+       digitDict['G'] == 1 and digitDict['B'] == 1 and \
+       digitDict['C'] == 1 and digitDict['D'] == 0 and digitDict['E'] == 0:
         return True
     return False
 
 
 def is3(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 0 and digitDict['G'] == 1 and digitDict['B'] == 1 and digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 0:
+    if digitDict['A'] == 1 and digitDict['F'] == 0 and \
+       digitDict['G'] == 1 and digitDict['B'] == 1 and \
+       digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 0:
         return True
     return False
 
 
 def is2(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 0 and digitDict['G'] == 1 and digitDict['B'] == 1 and digitDict['C'] == 0 and digitDict['D'] == 1 and digitDict['E'] == 1:
+    if digitDict['A'] == 1 and digitDict['F'] == 0 and \
+       digitDict['G'] == 1 and digitDict['B'] == 1 and \
+       digitDict['C'] == 0 and digitDict['D'] == 1 and digitDict['E'] == 1:
         return True
     return False
 
 
 def is1(digitDict):
-    if digitDict['A'] == 0 and digitDict['F'] == 0 and digitDict['G'] == 0 and digitDict['B'] == 1 and digitDict['C'] == 1 and digitDict['D'] == 0 and digitDict['E'] == 0:
+    if digitDict['A'] == 0 and digitDict['F'] == 0 and \
+       digitDict['G'] == 0 and digitDict['B'] == 1 and \
+       digitDict['C'] == 1 and digitDict['D'] == 0 and digitDict['E'] == 0:
         return True
     return False
 
 
 def is0(digitDict):
-    if digitDict['A'] == 1 and digitDict['F'] == 1 and digitDict['G'] == 0 and digitDict['B'] == 1 and digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 1:
+    if digitDict['A'] == 1 and digitDict['F'] == 1 and \
+       digitDict['G'] == 0 and digitDict['B'] == 1 and \
+       digitDict['C'] == 1 and digitDict['D'] == 1 and digitDict['E'] == 1:
         return True
     return False
 
