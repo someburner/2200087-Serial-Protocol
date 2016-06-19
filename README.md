@@ -16,16 +16,16 @@ Then install dependencies:
 pip install numpy pyserial
 ```
 
-Then you're ready to go. So just run the program:
-
-```
-sudo python serialDecoder.py -p /dev/ttyUSB0
-```
-
 To symlink the device (RadioShack 46-range):
 
 ```
 SUBSYSTEM=="tty", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", SYMLINK:="ftdi_radio", GROUP="users", MODE="0666"
+```
+
+Then you're ready to go. So just run the program:
+
+```
+sudo python serialDecoder.py -p /dev/ftdi_radio
 ```
 
 If you want a graph as your output, first install GNUPlot:
@@ -37,19 +37,19 @@ sudo apt-get install gnuplot
 then run:
 
 ```
-sudo python serialDecoder.py -p /dev/ttyUSB0 --graph
+sudo python serialDecoder.py -p /dev/ftdi_radio --graph
 ```
 
 You also can read from multiple multimeters at the same time and get a CSV output like so:
 
 ```
-sudo python serialDecoder.py -p /dev/ttyUSB0 /dev/ttyUSB1
+sudo python serialDecoder.py -p /dev/ftdi_radio /dev/ftdi_radio2
 ```
 
 If you only want the actual values and not information about what mode the multimeter is on, use the -q flag:
 
 ```
-sudo python serialDecoder.py -p /dev/ttyUSB0 -q
+sudo python serialDecoder.py -p /dev/ftdi_radio -q
 ```
 
 #Protocol Description
@@ -81,13 +81,13 @@ All bytes are sent over in hexadecimal numbered one through fourteen. Bytes 3-4 
 serialDecoder.py is a python program to decode the serial output from this DMM. Run:
 
 ```
-sudo python serialDecoder.py -p /dev/ttyUSB0
+sudo python serialDecoder.py -p /dev/ftdi_radio
 ```
 
 to display a text output of the data. Run:
 
 ```
-sudo python serialDecoder.py -p /dev/ttyUSB0 graph
+sudo python serialDecoder.py -p /dev/ftdi_radio graph
 ```
 
 to display a graph of the data. 
