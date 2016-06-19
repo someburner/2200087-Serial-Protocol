@@ -6,20 +6,26 @@ The 2200087 is an inexpensive DMM sold at radioshack. It supports logging and gr
 
 Start by cloning this repository:
 
-``` bash
+```
 git clone https://github.com/ddworken/2200087-Serial-Protocol.git
 ```
 
 Then install dependencies:
 
-``` bash
+```
 pip install numpy pyserial
 ```
 
 Then you're ready to go. So just run the program:
 
-``` bash
+```
 sudo python serialDecoder.py -p /dev/ttyUSB0
+```
+
+To symlink the device (RadioShack 46-range):
+
+```
+SUBSYSTEM=="tty", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", SYMLINK:="ftdi_radio", GROUP="users", MODE="0666"
 ```
 
 If you want a graph as your output, first install GNUPlot:
@@ -30,19 +36,19 @@ sudo apt-get install gnuplot
 
 then run:
 
-``` bash
+```
 sudo python serialDecoder.py -p /dev/ttyUSB0 --graph
 ```
 
 You also can read from multiple multimeters at the same time and get a CSV output like so:
 
-``` bash
+```
 sudo python serialDecoder.py -p /dev/ttyUSB0 /dev/ttyUSB1
 ```
 
 If you only want the actual values and not information about what mode the multimeter is on, use the -q flag:
 
-``` bash
+```
 sudo python serialDecoder.py -p /dev/ttyUSB0 -q
 ```
 
@@ -74,13 +80,13 @@ All bytes are sent over in hexadecimal numbered one through fourteen. Bytes 3-4 
 
 serialDecoder.py is a python program to decode the serial output from this DMM. Run:
 
-```bash
+```
 sudo python serialDecoder.py -p /dev/ttyUSB0
 ```
 
 to display a text output of the data. Run:
 
-```bash
+```
 sudo python serialDecoder.py -p /dev/ttyUSB0 graph
 ```
 
