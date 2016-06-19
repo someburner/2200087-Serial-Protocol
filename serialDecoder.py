@@ -2,9 +2,14 @@ import numpy as np
 import subprocess
 from random import *
 from time import sleep
+import time
+from datetime import datetime
 import serial
 import argparse
 import sys
+
+current_milli_time = lambda: int(round(time.time() * 1000))
+millis0 = 0
 
 class grapher(object):
     np = __import__('numpy')
@@ -339,7 +344,7 @@ def mainLoop(args):
 		        if not args.quiet:
                             print "| " + digits + ' ' + flags + " |"
                         if args.quiet:
-                            print "| " + digits + " |"
+                            print "| " + str(current_milli_time()-millis0) + " | " + digits + " |"
     if len(args.port) > 1:
 	if args.graph:
 	    print "This program does not support graphing two multimeters at the same time. "
@@ -393,6 +398,7 @@ def getSerialChunk(ser):
         return " ".join(chunk)
 
 if __name__ == '__main__': #Allows for usage of above methods in a library
+    millis0 = int(round(time.time() * 1000))
     parser = argparse.ArgumentParser()
     parser.add_argument("--graph", help="Use this argument if you want to display a graph. ", action="store_true")
     parser.add_argument("-p", "--port", nargs='*', help="The serial port to use", default="/dev/ttyUSB0")
