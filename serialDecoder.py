@@ -301,7 +301,7 @@ def mainLoop(args):
     if len(args.port) == 1:
     	ser = serial.Serial(port=args.port[0], baudrate=2400, bytesize=8, parity='N', stopbits=1, timeout=5, xonxoff=False, rtscts=False, dsrdtr=False)
     	global grapher 
-	grapher = grapher([0])
+	#grapher = grapher([0])
 	if args.csv:
 	    print args.port[0] + ','
 	if not args.csv:
